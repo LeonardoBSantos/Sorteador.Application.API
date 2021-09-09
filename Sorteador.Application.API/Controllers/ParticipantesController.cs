@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sorteador.BLL;
 using Sorteador.DAL.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sorteador.Application.API.Controllers
@@ -23,6 +19,8 @@ namespace Sorteador.Application.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            // Esse return Ok( objeto ) já vai retornar um ActionResult, e o objeto passado como parâmetro vai estar no body
+            // da resposta, então não precisa vir um ActionResult da camada de negócio (BLL)
             return Ok(_participanteService.GetParticipantes());
         }
 
