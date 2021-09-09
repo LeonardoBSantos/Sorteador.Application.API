@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sorteador.DAL;
+using Sorteador.BLL;
 
 namespace Sorteador.Application.API
 {
@@ -37,6 +38,8 @@ namespace Sorteador.Application.API
 
             services.AddDbContext<SorteadorContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("SorteadorDatabase")));
+
+            services.AddTransient<ParticipanteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sorteador.BLL;
+using Sorteador.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +13,24 @@ namespace Sorteador.Application.API.Controllers
     [Route("[controller]")]
     public class ParticipantesController : Controller
     {
+        private readonly ParticipanteService _participanteService;
+
+        public ParticipantesController(ParticipanteService participanteService)
+        {
+            _participanteService = participanteService;
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok(_participanteService.GetParticipantes());
+        }
+
+        [HttpPost("criar")]
+        public async Task<IActionResult> CriarParticipante(Participante model)
+        {
+            var result = await _participanteService.CriarParticipantes(model);
+            return Ok(result);
         }
     }
 }

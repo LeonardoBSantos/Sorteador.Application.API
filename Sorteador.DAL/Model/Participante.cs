@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sorteador.DAL
+namespace Sorteador.DAL.Model
 {
     public class Participante
     {
