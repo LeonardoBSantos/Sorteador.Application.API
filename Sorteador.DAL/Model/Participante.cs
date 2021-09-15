@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Sorteador.DAL.Model
 {
     public class Participante
     {
-        public int ParticipanteId { get; set; }
+        public Guid ParticipanteId { get; set; }
+
+        [JsonProperty("nome")]
         public string Nome { get; set; }
     }
 }

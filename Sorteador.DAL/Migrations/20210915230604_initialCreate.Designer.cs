@@ -10,8 +10,8 @@ using Sorteador.DAL;
 namespace Sorteador.DAL.Migrations
 {
     [DbContext(typeof(SorteadorContext))]
-    [Migration("20210901005438_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210915230604_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,12 +21,12 @@ namespace Sorteador.DAL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Sorteador.DAL.Participante", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.Participante", b =>
                 {
-                    b.Property<int>("ParticipanteId")
+                    b.Property<Guid>("ParticipanteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
@@ -36,7 +36,7 @@ namespace Sorteador.DAL.Migrations
                     b.ToTable("Participantes");
                 });
 
-            modelBuilder.Entity("Sorteador.DAL.Sala", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.Sala", b =>
                 {
                     b.Property<int>("SalaId")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace Sorteador.DAL.Migrations
                     b.ToTable("Salas");
                 });
 
-            modelBuilder.Entity("Sorteador.DAL.Sorteio", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.Sorteio", b =>
                 {
                     b.Property<int>("SorteioId")
                         .ValueGeneratedOnAdd()
@@ -86,7 +86,7 @@ namespace Sorteador.DAL.Migrations
                     b.ToTable("Sorteios");
                 });
 
-            modelBuilder.Entity("Sorteador.DAL.SorteioDetalhe", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.SorteioDetalhe", b =>
                 {
                     b.Property<int>("SorteioDetalheId")
                         .ValueGeneratedOnAdd()
@@ -105,6 +105,9 @@ namespace Sorteador.DAL.Migrations
                     b.Property<int>("ParticipanteId")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("ParticipanteId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Pontos")
                         .HasColumnType("int");
 
@@ -113,14 +116,14 @@ namespace Sorteador.DAL.Migrations
 
                     b.HasKey("SorteioDetalheId");
 
-                    b.HasIndex("ParticipanteId");
+                    b.HasIndex("ParticipanteId1");
 
                     b.HasIndex("SorteioId");
 
                     b.ToTable("SorteioDetalhes");
                 });
 
-            modelBuilder.Entity("Sorteador.DAL.Usuario", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.Usuario", b =>
                 {
                     b.Property<int>("UsuarioId")
                         .ValueGeneratedOnAdd()
@@ -138,9 +141,9 @@ namespace Sorteador.DAL.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("Sorteador.DAL.Sorteio", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.Sorteio", b =>
                 {
-                    b.HasOne("Sorteador.DAL.Sala", "Sala")
+                    b.HasOne("Sorteador.DAL.Model.Sala", "Sala")
                         .WithMany()
                         .HasForeignKey("SalaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -149,15 +152,13 @@ namespace Sorteador.DAL.Migrations
                     b.Navigation("Sala");
                 });
 
-            modelBuilder.Entity("Sorteador.DAL.SorteioDetalhe", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.SorteioDetalhe", b =>
                 {
-                    b.HasOne("Sorteador.DAL.Participante", "Participante")
+                    b.HasOne("Sorteador.DAL.Model.Participante", "Participante")
                         .WithMany()
-                        .HasForeignKey("ParticipanteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParticipanteId1");
 
-                    b.HasOne("Sorteador.DAL.Sorteio", "Sorteio")
+                    b.HasOne("Sorteador.DAL.Model.Sorteio", "Sorteio")
                         .WithMany("Participacoes")
                         .HasForeignKey("SorteioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -168,7 +169,7 @@ namespace Sorteador.DAL.Migrations
                     b.Navigation("Sorteio");
                 });
 
-            modelBuilder.Entity("Sorteador.DAL.Sorteio", b =>
+            modelBuilder.Entity("Sorteador.DAL.Model.Sorteio", b =>
                 {
                     b.Navigation("Participacoes");
                 });

@@ -27,10 +27,12 @@ namespace Sorteador.BLL
         {
             var participante = new Participante
             {
+                ParticipanteId = new Guid(),
                 Nome = model.Nome
             };
 
-            _SorteadorContext.Add(participante);
+            await _SorteadorContext.Participantes.AddAsync(participante);
+            await _SorteadorContext.SaveChangesAsync();
 
             return participante;
         }

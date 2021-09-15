@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sorteador.DAL.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,7 @@ namespace Sorteador.DAL.Migrations
                 name: "Participantes",
                 columns: table => new
                 {
-                    ParticipanteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ParticipanteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -83,17 +82,18 @@ namespace Sorteador.DAL.Migrations
                     EnderecoIP = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Pontos = table.Column<int>(type: "int", nullable: false),
                     ParticipacaoValida = table.Column<bool>(type: "bit", nullable: false),
-                    DataParticipacao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataParticipacao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ParticipanteId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SorteioDetalhes", x => x.SorteioDetalheId);
                     table.ForeignKey(
-                        name: "FK_SorteioDetalhes_Participantes_ParticipanteId",
-                        column: x => x.ParticipanteId,
+                        name: "FK_SorteioDetalhes_Participantes_ParticipanteId1",
+                        column: x => x.ParticipanteId1,
                         principalTable: "Participantes",
                         principalColumn: "ParticipanteId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SorteioDetalhes_Sorteios_SorteioId",
                         column: x => x.SorteioId,
@@ -103,9 +103,9 @@ namespace Sorteador.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SorteioDetalhes_ParticipanteId",
+                name: "IX_SorteioDetalhes_ParticipanteId1",
                 table: "SorteioDetalhes",
-                column: "ParticipanteId");
+                column: "ParticipanteId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SorteioDetalhes_SorteioId",
