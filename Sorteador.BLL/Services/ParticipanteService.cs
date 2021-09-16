@@ -17,7 +17,7 @@ namespace Sorteador.BLL
             _SorteadorContext = sorteadorContext;
         }
 
-       public async Task<ActionResult<IEnumerable<Participante>>> GetParticipantes()
+       public async Task<List<Participante>> GetParticipantes()
        {
             var response = await _SorteadorContext.Participantes.ToListAsync();
             return response;

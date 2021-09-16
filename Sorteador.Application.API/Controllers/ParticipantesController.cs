@@ -23,7 +23,8 @@ namespace Sorteador.Application.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_participanteService.GetParticipantes());
+            var participantes = _participanteService.GetParticipantes();
+            return Ok(participantes);
         }
 
         [HttpPost("criar")]
